@@ -1,0 +1,54 @@
+using C#, Create a delegate that has one integer parameter. 
+The delegate should return the integer +10 if add method is called or 
+the integer *10 if the multiplication method is called. 
+(Hint: define a class inside the delegate definition and the class should have a getNum method that returns a value after calculation)
+
+
+ANS:
+
+using System;
+
+// Define a delegate with one integer parameter and a method for calculation
+delegate int CalculationDelegate(int num);
+
+class Calculator
+{
+    public int GetNum(int num)
+    {
+        return num;
+    }
+
+    public static int Add(int num)
+    {
+        return num + 10;
+    }
+
+    public static int Multiply(int num)
+    {
+        return num * 10;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Create an instance of the Calculator class
+        Calculator calculator = new Calculator();
+
+        // Create instances of the delegate using the Calculator methods
+        CalculationDelegate addDelegate = Calculator.Add;
+        CalculationDelegate multiplyDelegate = Calculator.Multiply;
+
+        // Use the delegates to perform calculations
+        int inputNumber = 5;
+
+        int resultAdd = addDelegate(inputNumber);
+        int resultMultiply = multiplyDelegate(inputNumber);
+
+        // Display the results
+        Console.WriteLine($"Original Number: {calculator.GetNum(inputNumber)}");
+        Console.WriteLine($"Result of Add: {resultAdd}");
+        Console.WriteLine($"Result of Multiply: {resultMultiply}");
+    }
+}
