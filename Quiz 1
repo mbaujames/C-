@@ -1,0 +1,98 @@
+Question 1
+using c#, write a code for a guessing game. the game should; 
+give players 3 lives; 
+it should be played among 2 players in which one player sets the words and a hint while the second player guesses the word, 
+it should at least have 3 levels: 
+level one to have 3 words,
+level two to have 4 words and 
+level 3 to have 5 words. 
+the game should be played a maximum of 5 times and the score in terms of percentage is computed and displayed
+
+ANS:
+
+using System;
+
+class GuessingGame
+{
+    static void Main()
+    {
+        Console.WriteLine("Welcome to the Guessing Game!");
+
+        int totalGames = 5;
+        int currentGame = 1;
+        int totalScore = 0;
+
+        while (currentGame <= totalGames)
+        {
+            Console.WriteLine($"\nGame {currentGame}");
+
+            int level = currentGame % 3 + 1; // Cycle through levels 1, 2, 3
+            int wordsCount = level + 2; // Levels 1, 2, 3 have 3, 4, 5 words respectively
+
+            string[] words = GetWordsFromPlayer(wordsCount);
+            string hint = GetHintFromPlayer();
+
+            Console.WriteLine("\nPlayer 2, it's your turn to guess!");
+            int correctGuesses = PlayGame(words, hint);
+
+            double score = (double)correctGuesses / wordsCount * 100;
+            Console.WriteLine($"Your score for Game {currentGame}: {score}%");
+
+            totalScore += correctGuesses;
+            currentGame++;
+        }
+
+        double averageScore = (double)totalScore / (totalGames * (totalGames % 3 + 1) + totalGames % 3); // Average score
+        Console.WriteLine($"\nGame Over! Your average score: {averageScore}%");
+    }
+
+    static string[] GetWordsFromPlayer(int count)
+    {
+        string[] words = new string[count];
+        for (int i = 0; i < count; i++)
+        {
+            Console.Write($"Enter word {i + 1}: ");
+            words[i] = Console.ReadLine();
+        }
+        return words;
+    }
+
+    static string GetHintFromPlayer()
+    {
+        Console.Write("Enter a hint: ");
+        return Console.ReadLine();
+    }
+
+    static int PlayGame(string[] words, string hint)
+    {
+        int lives = 3;
+        int correctGuesses = 0;
+
+        Console.WriteLine($"\nHint: {hint}");
+
+        foreach (string word in words)
+        {
+            Console.Write($"\nGuess the word: ");
+            string guess = Console.ReadLine();
+
+            if (guess.ToLower() == word.ToLower())
+            {
+                Console.WriteLine("Correct!");
+                correctGuesses++;
+            }
+            else
+            {
+                Console.WriteLine("Incorrect! You lose a life.");
+                lives--;
+
+                if (lives == 0)
+                {
+                    Console.WriteLine("Game Over! You ran out of lives.");
+                    break;
+                }
+            }
+        }
+
+        return correctGuesses;
+    }
+}
