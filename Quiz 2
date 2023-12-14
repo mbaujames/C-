@@ -1,0 +1,70 @@
+using c#, you are required to create a python interpretor. 
+if the last characterof a line is  a colon, create a method called lastCharacter that returns true. 
+the method should automatically add a space equivalent to space tab in the next line. 
+if def is typed,create a method that validates the syntax of a method in python. 
+when opening curly braces is part of the code, write a code called isDictionary that returns true
+
+
+ANS:
+
+using System;
+using System.Text.RegularExpressions;
+
+class PythonInterpreter
+{
+    static void Main()
+    {
+        string pythonCode = @"
+def example_function():
+    print('Hello, World!')
+    if True:
+        print('This is a block of code.')
+        
+example_function()
+";
+
+        Console.WriteLine("Python Code:");
+        Console.WriteLine(pythonCode);
+
+        Console.WriteLine("\nAnalysis:");
+
+        string[] lines = pythonCode.Split('\n');
+
+        foreach (var line in lines)
+        {
+            if (IsColonAtEnd(line))
+            {
+                Console.WriteLine($"Last character of line is a colon. Modified line: {line} ");
+                Console.WriteLine(line + "    "); // Add space equivalent to a tab
+            }
+            else if (IsDefSyntax(line))
+            {
+                Console.WriteLine($"Method syntax is valid: {line}");
+            }
+            else if (IsDictionary(line))
+            {
+                Console.WriteLine($"Opening curly braces found. isDictionary returns true: {line}");
+            }
+            else
+            {
+                Console.WriteLine(line);
+            }
+        }
+    }
+
+    static bool IsColonAtEnd(string line)
+    {
+        return line.TrimEnd().EndsWith(":");
+    }
+
+    static bool IsDefSyntax(string line)
+    {
+        // This is a basic example to identify lines starting with "def" and having parentheses.
+        return Regex.IsMatch(line.Trim(), @"^def\s+\w+\(.+\):$");
+    }
+
+    static bool IsDictionary(string line)
+    {
+        return line.Contains("{");
+    }
+}
